@@ -15,8 +15,8 @@ namespace MVCFirstProject.Controllers
             Employee employee = new Employee()
                 {
                 EmployeeId = 1001,
-                EmployeeName = "Sujith S",
-                EmployeeLocation = "Kochi"
+                EmployeeName = "Khaja Moiz",
+                EmployeeLocation = "Hyderabad"
                 };
             return View(employee);
         }
