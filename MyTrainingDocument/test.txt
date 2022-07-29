@@ -61,15 +61,15 @@ Create a Maven enabled Java project in Eclipse. Create a sample java file in the
 
   <build>
 
-    <!—Specify the TARGET Dirctory -->
+    <buildDirectory>${project.basedir}/target</buildDirectory>
 
-    <!—Specify the OUTPUT Dirctory -->
+    <outputDirectory>${project.build.directory}/lib</outputDirectory>
 
     <finalName>${project.artifactId}-${project.version}</finalName>
 
     <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
 
-    <!—Specify the SOURCE Dirctory -->
+    <src.dir>${project.build.directory}/new-src</src.dir>
 
     <scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory>
 
