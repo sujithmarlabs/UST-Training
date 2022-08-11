@@ -1,0 +1,254 @@
+DB Connection String Value: Data Source=tcp:sujithustazuredb.database.windows.net,1433;Initial Catalog=AzureProject_db;User Id=admin@sujithustazuredb;Password=Marlabs@123
+
+
+
+
+IF NOT EXISTS (
+    SELECT name 
+    FROM sys.databases
+    WHERE name = N'TutorialDB'
+)
+CREATE DATABASE [TutorialDB]
+GO 
+
+ALTER DATABASE [TutorialDB] SET QUERY_STORE= ON
+GO
+
+
+
+
+
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Customers', 'U') IS NOT NULL
+DROP TABLE dbo.Customers
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Customers
+(
+ CustomerId INT NOT NULL PRIMARY KEY, -- primary key column
+ Name [NVARCHAR](50) NOT NULL,
+ Location [NVARCHAR](50) NOT NULL,
+ Email [NVARCHAR](50) NOT NULL
+);
+GO
+
+
+
+
+-- Insert rows into table 'Customers'
+INSERT INTO dbo.Customers
+ ([CustomerId],[Name],[Location],[Email])
+VALUES
+ ( 1, N'Orlando', N'Australia', N''),
+ ( 2, N'Keith', N'India', N'keith0@adventure-works.com'),
+ ( 3, N'Donna', N'Germany', N'donna0@adventure-works.com'),
+ ( 4, N'Janet', N'United States', N'janet1@adventure-works.com'),
+ ( 5, N'Sujith', N'India', N'sujith.s@ust.com')
+GO
+
+SELECT * FROM dbo.Customers;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Create a new stored procedure called 'getCustomer' in schema 'dbo'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+    FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'getCustomer'
+)
+DROP PROCEDURE dbo.getCustomer
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE dbo.getCustomer
+    @ID /*parameter name*/ int /*datatype_for_param1*/ = 0, /*default_value_for_param1*/
+-- add more stored procedure parameters here
+AS
+    -- body of the stored procedure
+    SELECT c.CustomerID,
+    c.Name,
+    c.Location,
+    c.Email
+    FROM dbo.Customers c
+    WHERE c.CustomerId = @ID 
+    FOR JSON PATH
+    GO
+-- example to execute the stored procedure we just created
+EXECUTE dbo.getCustomer 1 /*value_for_param1*/, 2 /*value_for_param2*/
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Create a new stored procedure called 'getCustomer' in schema 'dbo'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N
+AND SPECIFIC_NAME = N'getCustomer'
+)
+DROP PROCEDURE dbo.getCustomer
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE dbo.getCustomer
+@ID int
+-- add more stored procedure parameters here
+AS
+-- body of the stored procedure
+SELECT c.CustomerId,
+c.Name,
+c.Location,
+c.Email
+FROM dbo.Customers c
+WHERE c.CustomerId = @ID
+FOR JSON PATH
+GO
+-- example to execute the stored procedure we just created
+EXECUTE dbo.getCustomer 1
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+-- Create a new stored procedure called 'setCustomer' in schema 'dbo'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+    FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'setCustomer'
+    AND ROUTINE_TYPE = N'PROCEDURE'
+)
+DROP PROCEDURE dbo.setCustomer
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE dbo.setCustomer
+    @json_val nvarchar(max) 
+-- add more stored procedure parameters here
+AS
+    -- body of the stored procedure
+    INSERT INTO dbo.Customers
+GO
+-- example to execute the stored procedure we just created
+EXECUTE dbo.setCustomer 1 /*value_for_param1*/, 2 /*value_for_param2*/
+GO
+
+
+
+------------------------------------
+
+
+
+-- Create a new stored procedure called 'setCustomer' in schema 'dbo'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+ FROM INFORMATION_SCHEMA.ROUTINES
+ WHERE SPECIFIC_SCHEMA = N'dbo'
+ AND SPECIFIC_NAME = N'setCustomer'
+)
+DROP PROCEDURE dbo.setCustomer
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE dbo.setCustomer
+ @json_val nvarchar(max)
+AS
+ -- body of the stored procedure
+ INSERT INTO dbo.Customers (CustomerId, Name, Location, Email )
+ SELECT CustomerId, Name, Location, Email
+ FROM OPENJSON (@json_val)
+ WITH( CustomerId int,
+ Name nvarchar(50),
+ Location nvarchar(50),
+ Email nvarchar(50)
+ )
+GO
+
+EXECUTE dbo.setCustomer 1 /*value_for_param1*/, 2 /*value_for_param2*/
+
+------------------------------------
+
+
+
+-- example to execute the stored procedure we just created
+declare @json nvarchar(max) =
+N'[
+ {
+ "CustomerId": 6,
+ "Name": "Lucy",
+ "Location": "Canada",
+ "Email": "lucy0@adventure-works.com"
+ }
+]'
+EXECUTE dbo.setCustomer @json_val = @json
+GO
+EXECUTE dbo.getCustomer @ID = 5 
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------

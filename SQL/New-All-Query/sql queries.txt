@@ -1,0 +1,54 @@
+SELECT productLine,productPerLine=count(productCode) from products 
+group by productLine
+Having count(productCode)>10
+
+
+SELECT productLine,productPerLine=count(productCode) from products 
+group by productLine
+
+SELECT * from employees;
+
+SELECT lastName,firstName from employees where reportsTo is not NULL;
+
+SELECT lastName,firstName from employees where jobTitle='VP Sales';
+
+SELECT lastName,firstName,jobTitle from employees where jobTitle='VP Sales';
+
+SELECT officeCode=count(officeCode) from employees group by officeCode;
+
+
+SELECT count(*) as number_employees,officeCode,reportsTo from employees group by officeCode,reportsTo;
+
+SELECT lastName,firstName from employees where officeCode in(1,4)
+
+SELECT lastName,firstName from employees where lastName like 'B%'
+
+SELECT count(*) as number_firstName,SUBSTRING(firstName,1,1) from employees group by SUBSTRING(firstName,1,1) order by SUBSTRING(firstName,1,1);
+
+SUBSTRING(firstName,1,2)  firstname=column 1-position 2-length
+
+SELECT count(*) as number_orderNumber,SUBSTRING(cast(orderDate as varchar),6,2) from orders group by SUBSTRING(cast(orderDate as varchar),6,2)  order by SUBSTRING(cast(orderDate as varchar),6,2);
+
+update orders 
+set status='Delivered' where orderNumber=10100
+
+begin tran
+delete from orders 
+where orderNumber=10100
+select * from orders
+rollback
+select * from orders
+
+
+
+
+select * from products;
+select * from customers;
+select * from orders;
+select * from orderdetails;
+select count(C.customerNumber) as number_customers,P.productLine from products P 
+left outer join orderdetails OD on OD.productCode=P.productCode
+inner join orders O  on O.orderNumber=OD.orderNumber
+left outer join customers C on C.customerNumber=O.customerNumber
+group by P.productLine
+
