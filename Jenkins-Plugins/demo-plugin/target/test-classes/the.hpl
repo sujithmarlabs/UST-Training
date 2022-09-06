@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Group-Id: io.jenkins.plugins
+Short-Name: demo
+Long-Name: TODO Plugin
+Minimum-Java-Version: 1.8
+Plugin-Version: 1.0-SNAPSHOT (private-09/02/2022 12:56-devops21)
+Hudson-Version: 2.164.1
+Jenkins-Version: 2.164.1
+Plugin-Dependencies: structs:1.19
+Plugin-Developers: 
+Libraries: C:\Users\devops21\Desktop\SujithS-LiveCoding\Jenkins-Plugin
+ s\demo-plugin\src\main\resources,C:\Users\devops21\Desktop\SujithS-Li
+ veCoding\Jenkins-Plugins\demo-plugin\target\classes
+Resource-Path: C:\Users\devops21\Desktop\SujithS-LiveCoding\Jenkins-Pl
+ ugins\demo-plugin\src\main\webapp
+
